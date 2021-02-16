@@ -1,5 +1,7 @@
-import React, { useState,useReducer } from "react";
+import React, {useState, useReducer, useEffect} from "react";
 import "./../styles/App.css";
+import Selects from "./Selects";
+import Display from "./Display";
 
 
 const states = [{
@@ -141,9 +143,37 @@ const states = [{
 function App() 
 {
 	// Do not alter/remove main div
+	const [state, setState] = useState(0)
+	const [cities, setCities] = useState(states[state].city)
+	const [city, setCity] = useState(0)
+	const [lands, setLands] = useState(cities[city].landmarks)
+	const [land, setLand] = useState(0)
+
+	const changeHandle = (e)=>{
+		if (e.target.id==="state"){
+			setState(e.target.value)
+		}else if (e.target.id==="city"){
+			setCity(e.target.value)
+		}else{
+			setLand(e.target.value)
+		}
+	}
+	useEffect(()=>{
+		setCities(states[state].city)
+		setLands(cities[city].landmarks)
+	}, [state, cities, city])
+
+
+	console.log(states[state])
 	return (
 	<div id="main">
-		
+		<Selects id="state" data={states} handleChange={changeHandle} />
+		<Selects id="city" data={cities} handleChange={changeHandle} />
+		<Selects id="landmark" data={lands} handleChange={changeHandle} />
+
+		<Display id="state" data={[states[state].name, states[state].description]} />
+		<Display id="city" data={[cities[city].name, cities[city].description]} />
+		<Display id="landmark" data={[lands[land].name, lands[land].description]} />
 	</div>
 	);
 }
