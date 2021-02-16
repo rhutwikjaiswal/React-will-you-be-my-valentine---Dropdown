@@ -163,8 +163,6 @@ function App()
 		setLands(cities[city].landmarks)
 	}, [state, cities, city])
 
-
-	console.log(states[state])
 	return (
 	<div id="main">
 		<Selects id="state" data={states} handleChange={changeHandle} />
